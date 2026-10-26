@@ -1,0 +1,15 @@
+# Deprecated for production — use ../../deploy/docker-compose.yml
+# Kept for standalone frontend image smoke-test only.
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+      args:
+        VITE_API_URL: /api
+    container_name: agenti_frontend
+    ports:
+      - "8080:80"
+    restart: unless-stopped

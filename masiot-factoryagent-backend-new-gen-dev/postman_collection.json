@@ -1,0 +1,242 @@
+{
+  "info": {
+    "_postman_id": "maiot-api-collection",
+    "name": "MAS-IOT API Collection",
+    "description": "Коллекция запросов для тестирования MAS-IOT Backend API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"admin123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3001/api/users/login",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3001",
+              "path": ["api", "users", "login"]
+            },
+            "description": "Авторизация пользователя"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Tree",
+      "item": [
+        {
+          "name": "Get All Tree Nodes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3001/api/tree",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3001",
+              "path": ["api", "tree"]
+            },
+            "description": "Получить все узлы дерева"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Tree Node (Folder)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"folder-test-001\",\n  \"name\": \"Тестовая папка\",\n  \"type\": \"folder\",\n  \"icon\": \"📁\",\n  \"parent_id\": null,\n  \"position\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3001/api/tree",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3001",
+              "path": ["api", "tree"]
+            },
+            "description": "Создать папку в дереве"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Tree Node (Agent)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"agent-test-001\",\n  \"name\": \"Тестовый агент\",\n  \"type\": \"agent\",\n  \"icon\": \"🤖\",\n  \"parent_id\": \"folder-test-001\",\n  \"position\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3001/api/tree",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3001",
+              "path": ["api", "tree"]
+            },
+            "description": "Создать агента внутри папки"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Tree Node",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Обновлённая папка\",\n  \"icon\": \"📂\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3001/api/tree/folder-test-001",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3001",
+              "path": ["api", "tree", "folder-test-001"]
+            },
+            "description": "Обновить узел дерева"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Tree Node",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3001/api/tree/folder-test-001",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3001",
+              "path": ["api", "tree", "folder-test-001"]
+            },
+            "description": "Удалить узел дерева"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Agents",
+      "item": [
+        {
+          "name": "Get Agents by Node ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3001/api/agents/agent-test-001",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3001",
+              "path": ["api", "agents", "agent-test-001"]
+            },
+            "description": "Получить агентов по ID узла"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Workflow Templates",
+      "item": [
+        {
+          "name": "Get All Workflow Templates",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3001/api/workflow-templates",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3001",
+              "path": ["api", "workflow-templates"]
+            },
+            "description": "Получить все шаблоны workflow"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Workflow Functions",
+      "item": [
+        {
+          "name": "Get All Workflow Functions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3001/api/workflowfunctions",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3001",
+              "path": ["api", "workflowfunctions"]
+            },
+            "description": "Получить все функции workflow"
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3001",
+      "type": "string"
+    }
+  ]
+}

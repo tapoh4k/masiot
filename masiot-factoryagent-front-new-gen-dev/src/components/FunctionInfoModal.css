@@ -1,0 +1,70 @@
+.function-info-modal {
+  width: 600px;
+  max-width: 90vw;
+}
+
+.function-icon {
+  font-size: 24px;
+  margin-right: 8px;
+}
+
+.info-section {
+  margin-bottom: 20px;
+}
+
+.info-label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.info-value {
+  padding: 10px 12px;
+  background: #f8f8f8;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #333;
+}
+
+.info-value.code {
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  background: #f0f0f0;
+  color: #d63384;
+}
+
+.params-display {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px;
+  background: #f8f8f8;
+  border-radius: 4px;
+  min-height: 44px;
+}
+
+.param-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  background: #2196F3;
+  color: white;
+  border-radius: 16px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.config-display {
+  padding: 12px;
+  background: #f0f0f0;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  color: #333;
+  overflow-x: auto;
+  margin: 0;
+}

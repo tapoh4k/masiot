@@ -1,0 +1,456 @@
+.subsubitem-page {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.subsubitem-page h1 {
+  font-size: 32px;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+.subsubitem-actions {
+  margin-bottom: 30px;
+}
+
+.create-agent-btn {
+  padding: 12px 24px;
+  background-color: rgba(98, 124, 255, 1);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.create-agent-btn:hover {
+  background-color: rgba(78, 104, 235, 1);
+}
+
+.agents-section h3 {
+  font-size: 20px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.no-agents {
+  text-align: center;
+  color: #999;
+  padding: 40px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  border: 1px solid rgba(217, 217, 217, 1);
+}
+
+.agents-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.agent-card {
+  background-color: rgba(6, 255, 6, 0.35);
+  border: 1px solid rgba(0, 128, 0, 1);
+  border-radius: 10px;
+  padding: 20px;
+  transition: all 0.3s;
+}
+
+.agent-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 128, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+.agent-card .agent-icon {
+  font-size: 48px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.agent-card .agent-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.agent-card .agent-params {
+  font-size: 14px;
+  color: #555;
+  text-align: center;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 25px;
+  border-bottom: 1px solid rgba(217, 217, 217, 1);
+}
+
+.modal-header h2 {
+  font-size: 24px;
+  color: #333;
+}
+
+.modal-close {
+  width: 35px;
+  height: 35px;
+  background-color: rgba(255, 182, 148, 0.35);
+  color: #d9534f;
+  border: none;
+  border-radius: 5px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-close:hover {
+  background-color: rgba(237, 108, 48, 0.6);
+  color: white;
+}
+
+.modal-body {
+  padding: 25px;
+}
+
+.form-group {
+  margin-bottom: 25px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+.agent-name-input {
+  width: 100%;
+  padding: 12px;
+  font-size: 15px;
+  border: 1px solid rgba(217, 217, 217, 1);
+  border-radius: 8px;
+  transition: border-color 0.2s;
+}
+
+.agent-name-input:focus {
+  outline: none;
+  border-color: rgba(98, 124, 255, 1);
+}
+
+.parameters-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.parameter-item {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid rgba(217, 217, 217, 1);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.parameter-item:hover {
+  background-color: rgba(98, 124, 255, 0.05);
+  border-color: rgba(98, 124, 255, 1);
+}
+
+.parameter-item input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  margin-right: 12px;
+  cursor: pointer;
+}
+
+.parameter-item span {
+  font-size: 15px;
+  color: #333;
+}
+
+.modal-footer {
+  padding: 20px 25px;
+  border-top: 1px solid rgba(217, 217, 217, 1);
+}
+
+.save-agent-btn {
+  width: 100%;
+  padding: 15px;
+  background-color: rgba(0, 128, 0, 1);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.save-agent-btn:hover {
+  background-color: rgba(0, 108, 0, 1);
+}
+
+/* Адаптивность для планшетов */
+@media (max-width: 1024px) {
+  .agents-list {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+  }
+}
+
+/* Адаптивность для мобильных */
+@media (max-width: 768px) {
+  .subsubitem-page h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .subsubitem-actions {
+    margin-bottom: 20px;
+  }
+
+  .create-agent-btn {
+    width: 100%;
+    padding: 10px 20px;
+    font-size: 15px;
+  }
+
+  .agents-section h3 {
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+
+  .agents-list {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .agent-card {
+    padding: 16px;
+  }
+
+  .agent-card .agent-icon {
+    font-size: 40px;
+    margin-bottom: 8px;
+  }
+
+  .agent-card .agent-name {
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+
+  .agent-card .agent-params {
+    font-size: 13px;
+  }
+
+  .no-agents {
+    padding: 30px;
+    font-size: 14px;
+  }
+
+  .modal-content {
+    width: 95%;
+  }
+
+  .modal-header {
+    padding: 16px 20px;
+  }
+
+  .modal-header h2 {
+    font-size: 20px;
+  }
+
+  .modal-close {
+    width: 32px;
+    height: 32px;
+    font-size: 18px;
+  }
+
+  .modal-body {
+    padding: 20px;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-group label {
+    font-size: 15px;
+    margin-bottom: 10px;
+  }
+
+  .agent-name-input {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .parameters-list {
+    gap: 10px;
+  }
+
+  .parameter-item {
+    padding: 10px;
+  }
+
+  .parameter-item input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
+  }
+
+  .parameter-item span {
+    font-size: 14px;
+  }
+
+  .modal-footer {
+    padding: 16px 20px;
+  }
+
+  .save-agent-btn {
+    padding: 12px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .subsubitem-page h1 {
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
+
+  .subsubitem-actions {
+    margin-bottom: 16px;
+  }
+
+  .create-agent-btn {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+
+  .agents-section h3 {
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+
+  .agent-card {
+    padding: 14px;
+  }
+
+  .agent-card .agent-icon {
+    font-size: 36px;
+    margin-bottom: 6px;
+  }
+
+  .agent-card .agent-name {
+    font-size: 15px;
+    margin-bottom: 6px;
+  }
+
+  .agent-card .agent-params {
+    font-size: 12px;
+  }
+
+  .no-agents {
+    padding: 24px;
+    font-size: 13px;
+  }
+
+  .modal-content {
+    width: 98%;
+    border-radius: 8px;
+  }
+
+  .modal-header {
+    padding: 14px 16px;
+  }
+
+  .modal-header h2 {
+    font-size: 18px;
+  }
+
+  .modal-close {
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+  }
+
+  .modal-body {
+    padding: 16px;
+  }
+
+  .form-group {
+    margin-bottom: 16px;
+  }
+
+  .form-group label {
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+
+  .agent-name-input {
+    padding: 8px;
+    font-size: 13px;
+  }
+
+  .parameters-list {
+    gap: 8px;
+  }
+
+  .parameter-item {
+    padding: 8px;
+  }
+
+  .parameter-item input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+  }
+
+  .parameter-item span {
+    font-size: 13px;
+  }
+
+  .modal-footer {
+    padding: 14px 16px;
+  }
+
+  .save-agent-btn {
+    padding: 10px;
+    font-size: 14px;
+  }
+}

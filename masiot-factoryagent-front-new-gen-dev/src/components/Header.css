@@ -1,0 +1,161 @@
+.app-header {
+  height: 64px;
+  background-color: #ffffff;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-left {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-logo {
+  font-size: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: rgba(98, 124, 255, 1);
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.header-user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-right: 12px;
+  padding-right: 12px;
+  border-right: 1px solid #e2e8f0;
+}
+
+.user-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.user-role {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.logout-btn {
+  color: #dc2626;
+}
+
+.logout-btn:hover {
+  background-color: #fee;
+}
+
+.header-icon-btn {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background-color: transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+  color: #333;
+}
+
+.header-icon-btn:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.header-icon-btn svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Адаптивность для планшетов */
+@media (max-width: 1024px) {
+  .app-header {
+    padding: 0 16px;
+  }
+
+  .header-title {
+    font-size: 18px;
+  }
+}
+
+/* Адаптивность для мобильных */
+@media (max-width: 768px) {
+  .app-header {
+    height: 56px;
+    padding: 0 12px;
+  }
+
+  .header-logo {
+    font-size: 24px;
+  }
+
+  .header-title {
+    font-size: 16px;
+  }
+
+  .header-left {
+    gap: 8px;
+  }
+
+  .header-right {
+    gap: 4px;
+  }
+
+  .header-icon-btn {
+    width: 36px;
+    height: 36px;
+  }
+
+  .header-icon-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-header {
+    height: 52px;
+    padding: 0 8px;
+  }
+
+  .header-logo {
+    font-size: 20px;
+  }
+
+  .header-title {
+    font-size: 14px;
+  }
+
+  .header-icon-btn {
+    width: 32px;
+    height: 32px;
+  }
+
+  .header-icon-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+}

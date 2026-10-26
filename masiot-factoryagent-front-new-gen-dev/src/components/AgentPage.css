@@ -1,0 +1,837 @@
+.agent-page {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Навигация по вкладкам */
+.agent-tabs {
+  display: flex;
+  gap: 32px;
+  margin-bottom: 0;
+}
+
+.agent-tab-button {
+  padding: 12px 0;
+  background: none;
+  border: none;
+  font-size: 15px;
+  font-weight: 500;
+  color: #666;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.2s;
+}
+
+.agent-tab-button:hover {
+  color: #333;
+}
+
+.agent-tab-button.active {
+  color: rgba(98, 124, 255, 1);
+}
+
+.agent-tab-button.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: rgba(98, 124, 255, 1);
+}
+
+.agent-tabs-divider {
+  height: 1px;
+  background-color: #e0e0e0;
+  width: 100%;
+  margin-bottom: 32px;
+}
+
+/* Заголовок агента */
+.agent-title {
+  font-size: 32px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 24px 0;
+}
+
+/* Кнопки действий */
+.agent-actions {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.btn-save-params {
+  padding: 10px 20px;
+  background-color: rgba(98, 124, 255, 1);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-save-params:hover {
+  background-color: rgba(78, 104, 235, 1);
+}
+
+.btn-icon {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.btn-delete-agent {
+  padding: 10px 20px;
+  background-color: white;
+  border: 1px solid #dc2626;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #dc2626;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-delete-agent:hover {
+  background-color: #dc2626;
+  color: white;
+}
+
+.btn-download-archive {
+  padding: 10px 20px;
+  background-color: white;
+  border: 1px solid rgba(98, 124, 255, 1);
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(98, 124, 255, 1);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-download-archive:hover {
+  background-color: rgba(98, 124, 255, 1);
+  color: white;
+}
+
+/* Контент вкладок */
+.agent-tab-content {
+  min-height: 400px;
+}
+
+.agent-tab-panel {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Карточка параметров */
+.agent-params-card {
+  background-color: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.agent-params-card + .agent-params-card {
+  margin-top: 32px;
+}
+
+.params-card-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 20px 0;
+}
+
+.params-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.params-card-header .params-card-title {
+  margin: 0;
+}
+
+.btn-add-parameters {
+  padding: 10px 20px;
+  background-color: rgba(98, 124, 255, 1);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-add-parameters:hover {
+  background-color: rgba(78, 104, 235, 1);
+}
+
+/* Контейнер таблицы с скроллом */
+.agent-params-table-container {
+  max-height: 420px;
+  overflow-y: auto;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+}
+
+/* Таблица параметров */
+.agent-params-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.agent-params-table thead {
+  position: sticky;
+  top: 0;
+  background-color: #f7f8fa;
+  z-index: 10;
+}
+
+.agent-params-table th {
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.agent-params-table th.actions-column {
+  width: 100px;
+  text-align: center;
+}
+
+.agent-params-table tbody tr.param-row {
+  background-color: white;
+  transition: background-color 0.2s;
+}
+
+.agent-params-table tbody tr.param-row:hover {
+  background-color: #f0f4ff;
+}
+
+.agent-params-table tbody tr.param-row td {
+  padding: 12px 16px;
+  color: #555;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.agent-params-table .actions-cell {
+  text-align: center;
+}
+
+/* Поле ввода значения параметра */
+.param-value-input {
+  width: 100%;
+  max-width: 200px;
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.param-value-input:focus {
+  border-color: rgba(98, 124, 255, 1);
+}
+
+/* Кнопка удаления параметра */
+.btn-delete-param {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.btn-delete-param:hover {
+  background-color: #fee;
+}
+
+/* Пустое сообщение */
+.empty-message {
+  text-align: center;
+  color: #999;
+  padding: 40px 16px !important;
+  font-style: italic;
+}
+
+/* Placeholder текст */
+.placeholder-text {
+  color: #666;
+  font-size: 14px;
+  margin: 20px 0;
+  text-align: center;
+}
+
+/* Стили для вкладки "Создать агента" */
+
+.create-agent-description {
+  color: #666;
+  font-size: 14px;
+  margin: 0 0 24px 0;
+  line-height: 1.5;
+}
+
+.create-agent-info {
+  background-color: #f7f8fa;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.info-value {
+  font-size: 14px;
+  color: #666;
+}
+
+.create-agent-actions {
+  display: flex;
+  justify-content: center;
+}
+
+.btn-create-agent-final {
+  padding: 12px 32px;
+  background-color: rgba(98, 124, 255, 1);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-create-agent-final:hover {
+  background-color: rgba(78, 104, 235, 1);
+}
+
+/* Стили для вкладки "Настройка Workflow" */
+
+.workflow-main-title {
+  font-size: 28px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 12px 0;
+}
+
+.workflow-agent-name {
+  font-size: 20px;
+  font-weight: 500;
+  color: #666;
+  margin: 0 0 24px 0;
+}
+
+/* Workflow Status Panel */
+.workflow-status-panel {
+  background-color: #f7f8fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.workflow-status-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: auto;
+  min-width: 0;
+  max-width: none;
+  padding: 0;
+  position: static;
+  border-right: none;
+  z-index: auto;
+}
+
+.status-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #555;
+  min-width: 180px;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  gap: 4px;
+}
+
+.status-badge.applied {
+  background-color: #d1fae5;
+  color: #065f46;
+  border: 1px solid #6ee7b7;
+}
+
+.status-badge.not-applied {
+  background-color: #f3f4f6;
+  color: #6b7280;
+  border: 1px solid #d1d5db;
+}
+
+.status-badge.status-ready {
+  background-color: #d1fae5;
+  color: #065f46;
+  border: 1px solid #6ee7b7;
+}
+
+.status-badge.status-running {
+  background-color: #dbeafe;
+  color: #1e40af;
+  border: 1px solid #93c5fd;
+}
+
+.status-badge.status-not_ready {
+  background-color: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fcd34d;
+}
+
+.status-badge.status-error {
+  background-color: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+}
+
+.workflow-notice {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 16px 0;
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.workflow-notice-info {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: #1e3a8a;
+}
+
+.workflow-notice-success {
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  color: #065f46;
+}
+
+.workflow-notice-error {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+}
+
+.workflow-notice-close {
+  border: none;
+  background: transparent;
+  color: inherit;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 2px;
+  opacity: 0.7;
+}
+
+.workflow-notice-close:hover {
+  opacity: 1;
+}
+
+.applied-workflows-list {
+  font-size: 13px;
+  color: #333;
+  font-weight: 500;
+  background-color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+}
+
+.workflow-apply-hint {
+  margin: 0 0 16px;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.45;
+  max-width: 720px;
+}
+
+.btn-open-editor {
+  height: 40px;
+  padding: 0 14px;
+  border: 1px solid #7BA3FF;
+  border-radius: 6px;
+  background: #fff;
+  color: #3d5afe;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-open-editor:hover {
+  background: #eef3ff;
+}
+
+.workflow-description-cell {
+  color: #666;
+  font-size: 13px;
+  max-width: 360px;
+}
+
+/* Панель инструментов */
+.workflow-toolbar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.workflow-search {
+  flex: 1;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.workflow-search:focus {
+  border-color: rgba(98, 124, 255, 1);
+}
+
+.workflow-search::placeholder {
+  color: #999;
+}
+
+.workflow-filter {
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  cursor: pointer;
+  background-color: white;
+  transition: border-color 0.2s;
+  min-width: 200px;
+}
+
+.workflow-filter:focus {
+  border-color: rgba(98, 124, 255, 1);
+}
+
+/* Список Workflow */
+.workflow-list-container {
+  max-height: 420px;
+  overflow-y: auto;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.workflow-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.workflow-table thead {
+  position: sticky;
+  top: 0;
+  background-color: #f7f8fa;
+  z-index: 10;
+}
+
+.workflow-table th {
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.workflow-table th.workflow-checkbox-column {
+  width: 100px;
+  text-align: center;
+}
+
+.workflow-table tbody tr.workflow-row {
+  background-color: white;
+  transition: background-color 0.2s;
+  cursor: pointer;
+}
+
+.workflow-table tbody tr.workflow-row:hover {
+  background-color: #f0f4ff;
+}
+
+.workflow-table tbody tr.workflow-row td {
+  padding: 12px 16px;
+  color: #555;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.workflow-table .workflow-checkbox-cell {
+  text-align: center;
+}
+
+.workflow-table .workflow-checkbox-cell input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+/* Кнопки действий для Workflow */
+.workflow-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.btn-save-workflow {
+  padding: 10px 20px;
+  background-color: white;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-save-workflow:hover {
+  border-color: #999;
+  color: #000;
+}
+
+.btn-start-workflow {
+  padding: 10px 20px;
+  background-color: #059669;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-start-workflow:hover:not(:disabled) {
+  background-color: #047857;
+}
+
+.btn-start-workflow:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.btn-stop-workflow {
+  padding: 10px 20px;
+  background-color: #dc2626;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-stop-workflow:hover:not(:disabled) {
+  background-color: #b91c1c;
+}
+
+.btn-stop-workflow:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.btn-send-rabbitmq {
+  padding: 10px 20px;
+  background-color: rgba(98, 124, 255, 1);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-send-rabbitmq:hover {
+  background-color: rgba(78, 104, 235, 1);
+}
+
+/* Адаптивность */
+@media (max-width: 1024px) {
+  .agent-tabs {
+    gap: 20px;
+    overflow-x: auto;
+  }
+
+  .agent-tab-button {
+    white-space: nowrap;
+  }
+
+  .agent-params-table-container {
+    max-height: 360px;
+  }
+
+  .file-upload-section {
+    flex-direction: column;
+  }
+
+  .btn-upload-file {
+    align-self: stretch;
+  }
+}
+
+@media (max-width: 768px) {
+  .agent-title {
+    font-size: 24px;
+  }
+
+  .agent-actions {
+    flex-direction: column;
+  }
+
+  .btn-save-params,
+  .btn-delete-agent {
+    width: 100%;
+  }
+
+  .agent-params-table {
+    font-size: 12px;
+  }
+
+  .agent-params-table th,
+  .agent-params-table td {
+    padding: 8px 12px;
+  }
+
+  .param-value-input {
+    max-width: 150px;
+  }
+
+  /* Техпроцесс - поля времени в колонку на мобильных */
+  .time-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .file-upload-section {
+    flex-direction: column;
+  }
+
+  .dropzone {
+    padding: 30px 15px;
+  }
+
+  .dropzone-icon {
+    font-size: 36px;
+  }
+
+  .process-actions {
+    flex-direction: column;
+  }
+
+  .btn-reset-process,
+  .btn-submit-process {
+    width: 100%;
+  }
+
+  /* Workflow - адаптивность */
+  .workflow-main-title {
+    font-size: 22px;
+  }
+
+  .workflow-agent-name {
+    font-size: 16px;
+  }
+
+  .workflow-toolbar {
+    flex-direction: column;
+  }
+
+  .workflow-search,
+  .workflow-filter {
+    width: 100%;
+  }
+
+  .workflow-list-container {
+    max-height: 300px;
+  }
+
+  .workflow-table {
+    font-size: 12px;
+  }
+
+  .workflow-table th,
+  .workflow-table td {
+    padding: 8px 12px;
+  }
+
+  .workflow-actions {
+    flex-direction: column;
+  }
+
+  .btn-save-workflow,
+  .btn-start-workflow,
+  .btn-stop-workflow,
+  .btn-send-rabbitmq {
+    width: 100%;
+  }
+}

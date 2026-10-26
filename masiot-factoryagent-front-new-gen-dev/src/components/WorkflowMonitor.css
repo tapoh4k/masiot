@@ -1,0 +1,387 @@
+.workflow-monitor {
+  padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.monitor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.monitor-header h1 {
+  font-size: 28px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.btn-refresh {
+  padding: 10px 20px;
+  background: #81C784;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.btn-refresh:hover {
+  background: #66BB6A;
+  transform: translateY(-1px);
+}
+
+.monitor-filters {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 25px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.filter-btn {
+  padding: 10px 20px;
+  background: white;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+  transition: all 0.2s;
+}
+
+.filter-btn:hover {
+  border-color: #7BA3FF;
+  color: #7BA3FF;
+}
+
+.filter-btn.active {
+  background: #7BA3FF;
+  border-color: #7BA3FF;
+  color: white;
+}
+
+.loading {
+  text-align: center;
+  padding: 60px 20px;
+  font-size: 18px;
+  color: #666;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 80px 20px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  margin-top: 20px;
+}
+
+.empty-state p {
+  font-size: 18px;
+  color: #999;
+  margin: 0;
+}
+
+.workflows-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px;
+}
+
+.workflow-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s;
+  border-left: 4px solid #ccc;
+}
+
+.workflow-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.workflow-card.status-running {
+  border-left-color: #7BA3FF;
+}
+
+.workflow-card.status-completed {
+  border-left-color: #81C784;
+}
+
+.workflow-card.status-error {
+  border-left-color: #EF5350;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.card-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.status-badge {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-badge.status-running {
+  background: #E3F2FD;
+  color: #5C8FE8;
+}
+
+.status-badge.status-completed {
+  background: #E8F5E9;
+  color: #66BB6A;
+}
+
+.status-badge.status-error {
+  background: #FFEBEE;
+  color: #EF5350;
+}
+
+.card-body {
+  margin-bottom: 15px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.info-row .label {
+  font-size: 13px;
+  color: #666;
+  font-weight: 500;
+}
+
+.info-row .value {
+  font-size: 13px;
+  color: #1a1a1a;
+  font-weight: 600;
+  text-align: right;
+  max-width: 60%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.card-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.btn-details,
+.btn-continue,
+.btn-delete-small {
+  flex: 1;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.btn-details {
+  background: #7BA3FF;
+  color: white;
+}
+
+.btn-details:hover {
+  background: rgba(98, 124, 255, 1);
+}
+
+.btn-continue {
+  background: #FFB74D;
+  color: white;
+}
+
+.btn-continue:hover {
+  background: #FFA726;
+}
+
+.btn-delete-small {
+  background: #EF5350;
+  color: white;
+}
+
+.btn-delete-small:hover {
+  background: #E53935;
+}
+
+/* Modal styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  max-width: 800px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 25px;
+  border-bottom: 1px solid #e0e0e0;
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 1;
+}
+
+.modal-header h2 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.btn-close {
+  background: none;
+  border: none;
+  font-size: 32px;
+  color: #999;
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.btn-close:hover {
+  background: #f5f5f5;
+  color: #333;
+}
+
+.modal-body {
+  padding: 25px;
+}
+
+.detail-section {
+  margin-bottom: 25px;
+}
+
+.detail-section:last-child {
+  margin-bottom: 0;
+}
+
+.detail-section h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0 0 15px 0;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #7BA3FF;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.detail-label {
+  font-size: 12px;
+  color: #666;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.detail-value {
+  font-size: 14px;
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
+.json-display {
+  background: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 15px;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  color: #333;
+  overflow-x: auto;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .workflows-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .monitor-filters {
+    flex-wrap: wrap;
+  }
+
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-content {
+    max-height: 95vh;
+  }
+}

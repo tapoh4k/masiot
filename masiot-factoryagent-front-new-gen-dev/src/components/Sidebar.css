@@ -1,0 +1,632 @@
+.sidebar {
+  width: 300px;
+  background-color: #f8f9fa;
+  border-right: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.sidebar-header {
+  padding: 20px 16px;
+  background-color: transparent;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.add-element-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 12px 0;
+}
+
+.add-branch-container {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.add-branch-input {
+  flex: 1;
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  background-color: #ffffff;
+  color: #333;
+  transition: border-color 0.2s;
+}
+
+.add-branch-input:focus {
+  border-color: rgba(98, 124, 255, 1);
+}
+
+.add-branch-input::placeholder {
+  color: #999;
+}
+
+.add-branch-btn {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 8px;
+  background-color: rgba(98, 124, 255, 1);
+  color: white;
+  font-size: 20px;
+  font-weight: 400;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  line-height: 1;
+  flex-shrink: 0;
+  box-shadow: 0 2px 4px rgba(98, 124, 255, 0.2);
+}
+
+.add-branch-btn:hover {
+  background-color: rgba(78, 104, 235, 1);
+  box-shadow: 0 4px 8px rgba(98, 124, 255, 0.3);
+}
+
+.search-container {
+  padding: 12px 16px;
+  background-color: transparent;
+  border-bottom: 1px solid #e0e0e0;
+  position: relative;
+}
+
+.search-input {
+  width: 100%;
+  height: 36px;
+  padding: 0 36px 0 12px;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  background-color: #ffffff;
+  color: #333;
+  transition: border-color 0.2s;
+}
+
+.search-input:focus {
+  border-color: rgba(98, 124, 255, 1);
+}
+
+.search-input::placeholder {
+  color: #999;
+}
+
+.search-clear-btn {
+  position: absolute;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  border: none;
+  background-color: transparent;
+  color: #999;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s;
+  padding: 0;
+  line-height: 1;
+}
+
+.search-clear-btn:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+  color: #666;
+}
+
+.agent-count {
+  margin-left: auto;
+  padding: 2px 8px;
+  background-color: rgba(98, 124, 255, 0.1);
+  color: rgba(98, 124, 255, 1);
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 12px;
+  margin-right: 8px;
+}
+
+.tree-node.selected .agent-count {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.tree-node.highlighted {
+  background-color: rgba(255, 235, 59, 0.3);
+}
+
+.tree-node.highlighted.selected {
+  background-color: rgba(98, 124, 255, 1);
+  box-shadow: 0 0 0 2px rgba(255, 235, 59, 0.5);
+}
+
+.tree {
+  padding: 12px 8px;
+}
+
+.tree-node-group {
+  margin-bottom: 4px;
+}
+
+.tree-node {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+  margin-bottom: 2px;
+  position: relative;
+}
+
+.tree-node:hover:not(.selected) {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.tree-node.selected {
+  background-color: rgba(98, 124, 255, 1);
+  color: white;
+}
+
+.tree-node.selected .node-label {
+  color: white;
+}
+
+.node-chevron {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: #666;
+  cursor: pointer;
+  margin-right: 4px;
+  flex-shrink: 0;
+}
+
+.tree-node.selected .node-chevron {
+  color: white;
+}
+
+.node-icon {
+  font-size: 16px;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+.node-label {
+  font-size: 14px;
+  color: #333;
+  user-select: none;
+  flex: 1;
+}
+
+.main-label {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.tree-children {
+  margin-left: 24px;
+  margin-top: 2px;
+}
+
+.tree-children .tree-node {
+  padding-left: 8px;
+}
+
+.tree-children .tree-children {
+  margin-left: 20px;
+}
+
+.tree-children .tree-children .tree-node {
+  padding-left: 4px;
+}
+
+.edit-mode-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background-color: #fff3cd;
+  border-bottom: 1px solid #ffc107;
+  font-size: 14px;
+  font-weight: 500;
+  color: #856404;
+}
+
+.exit-edit-mode-btn {
+  padding: 6px 12px;
+  background-color: white;
+  border: 1px solid #ffc107;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #856404;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.exit-edit-mode-btn:hover {
+  background-color: #ffc107;
+  color: white;
+}
+
+.admin-menu {
+  padding: 12px 16px;
+  background-color: #f1f5f9;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.admin-menu-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background-color: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.admin-menu-item:hover {
+  background-color: rgba(98, 124, 255, 0.05);
+  border-color: rgba(98, 124, 255, 0.3);
+  color: rgba(98, 124, 255, 1);
+}
+
+.admin-menu-icon {
+  font-size: 18px;
+}
+
+.workflow-menu {
+  padding: 12px 16px;
+  background-color: #f0f9ff;
+  border-bottom: 1px solid #e0f2fe;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.workflow-menu-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background-color: white;
+  border: 1px solid #bae6fd;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #0c4a6e;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.workflow-menu-item:hover {
+  background-color: rgba(14, 165, 233, 0.1);
+  border-color: rgba(14, 165, 233, 0.4);
+  color: #0284c7;
+}
+
+.workflow-menu-icon {
+  font-size: 18px;
+}
+
+
+.tree-node.draggable {
+  cursor: move;
+}
+
+.tree-node.drag-over {
+  background-color: rgba(98, 124, 255, 0.2);
+  border: 2px dashed rgba(98, 124, 255, 1);
+}
+
+.node-delete-btn {
+  margin-left: auto;
+  width: 20px;
+  height: 20px;
+  border: none;
+  background-color: transparent;
+  color: #dc2626;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s;
+  padding: 0;
+  line-height: 1;
+}
+
+.node-delete-btn:hover {
+  background-color: #fee;
+  color: #b91c1c;
+}
+
+.tree-node.selected .node-delete-btn {
+  color: white;
+}
+
+.tree-node.selected .node-delete-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.root-drop-zone {
+  margin: 16px 12px;
+  padding: 20px;
+  border: 2px dashed #d9d9d9;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.root-drop-zone:hover {
+  border-color: rgba(98, 124, 255, 0.5);
+  background-color: rgba(98, 124, 255, 0.05);
+}
+
+.root-drop-zone.drag-over {
+  border-color: rgba(98, 124, 255, 1);
+  background-color: rgba(98, 124, 255, 0.15);
+  border-width: 3px;
+}
+
+.drop-zone-icon {
+  font-size: 24px;
+}
+
+.drop-zone-text {
+  font-size: 13px;
+  color: #666;
+  font-weight: 500;
+}
+
+.root-drop-zone.drag-over .drop-zone-text {
+  color: rgba(98, 124, 255, 1);
+  font-weight: 600;
+}
+
+/* Адаптивность для планшетов */
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 260px;
+  }
+
+  .sidebar-header {
+    padding: 16px 12px;
+  }
+
+  .search-container {
+    padding: 12px;
+  }
+
+  .add-element-title {
+    font-size: 14px;
+  }
+}
+
+/* Адаптивность для мобильных */
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 56px;
+    width: 280px;
+    height: calc(100vh - 56px);
+    z-index: 90;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .sidebar-header {
+    padding: 12px;
+  }
+
+  .search-container {
+    padding: 10px 12px;
+  }
+
+  .search-input {
+    height: 34px;
+    font-size: 13px;
+  }
+
+  .add-element-title {
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+
+  .add-branch-input {
+    height: 34px;
+    font-size: 13px;
+  }
+
+  .add-branch-btn {
+    width: 34px;
+    height: 34px;
+    font-size: 18px;
+  }
+
+  .tree {
+    padding: 10px 6px;
+  }
+
+  .tree-node {
+    padding: 7px 10px;
+  }
+
+  .node-label {
+    font-size: 13px;
+  }
+
+  .main-label {
+    font-size: 15px;
+  }
+
+  .tree-children {
+    margin-left: 20px;
+  }
+
+  .edit-mode-banner {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .exit-edit-mode-btn {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+
+  .root-drop-zone {
+    margin: 12px 8px;
+    padding: 16px;
+  }
+
+  .drop-zone-icon {
+    font-size: 20px;
+  }
+
+  .drop-zone-text {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar {
+    width: 260px;
+    top: 52px;
+    height: calc(100vh - 52px);
+  }
+
+  .sidebar-header {
+    padding: 10px;
+  }
+
+  .search-container {
+    padding: 8px 10px;
+  }
+
+  .search-input {
+    height: 32px;
+    font-size: 12px;
+    padding: 0 32px 0 10px;
+  }
+
+  .search-clear-btn {
+    right: 18px;
+    width: 18px;
+    height: 18px;
+    font-size: 16px;
+  }
+
+  .agent-count {
+    font-size: 11px;
+    padding: 1px 6px;
+  }
+
+  .add-element-title {
+    font-size: 12px;
+    margin-bottom: 8px;
+  }
+
+  .add-branch-input {
+    height: 32px;
+    font-size: 12px;
+    padding: 0 10px;
+  }
+
+  .add-branch-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+  }
+
+  .tree {
+    padding: 8px 4px;
+  }
+
+  .tree-node {
+    padding: 6px 8px;
+  }
+
+  .node-chevron {
+    width: 18px;
+    height: 18px;
+    font-size: 9px;
+  }
+
+  .node-icon {
+    font-size: 14px;
+    margin-right: 6px;
+  }
+
+  .node-label {
+    font-size: 12px;
+  }
+
+  .main-label {
+    font-size: 14px;
+  }
+
+  .tree-children {
+    margin-left: 16px;
+  }
+
+  .tree-children .tree-children {
+    margin-left: 16px;
+  }
+
+  .node-delete-btn {
+    width: 18px;
+    height: 18px;
+    font-size: 18px;
+  }
+
+  .root-drop-zone {
+    margin: 10px 6px;
+    padding: 14px;
+  }
+
+  .drop-zone-icon {
+    font-size: 18px;
+  }
+
+  .drop-zone-text {
+    font-size: 11px;
+  }
+}

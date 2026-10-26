@@ -1,0 +1,103 @@
+# MAS-IOT production stack
+# Usage:
+#   cp .env.example .env
+#   docker compose up -d --build
+#
+# UI:  http://localhost/
+# API: http://localhost/api/health
+
+name: masiot
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: masiot_postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-agenti_db}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ../masiot-factoryagent-backend-new-gen-dev/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 10s
+      timeout: 5s
+      retries: 8
+    restart: unless-stopped
+    networks:
+      - masiot_net
+
+  rabbitmq:
+    image: rabbitmq:3.12-management-alpine
+    container_name: masiot_rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-masiot}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:?Set RABBITMQ_PASSWORD in .env}
+    # Management UI only on loopback (optional ops). AMQP not published publicly.
+    ports:
+      - "127.0.0.1:${RABBITMQ_MGMT_PORT:-15672}:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 8
+    restart: unless-stopped
+    networks:
+      - masiot_net
+
+  backend:
+    build:
+      context: ../masiot-factoryagent-backend-new-gen-dev
+      dockerfile: Dockerfile
+    container_name: masiot_backend
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      Port: "3001"
+      ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=${POSTGRES_DB:-agenti_db};Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD};Encoding=UTF8"
+      RabbitMQ__Host: rabbitmq
+      RabbitMQ__Port: "5672"
+      RabbitMQ__Username: ${RABBITMQ_USER:-masiot}
+      RabbitMQ__Password: ${RABBITMQ_PASSWORD}
+      RabbitMQ__ManagementPort: "15672"
+      Encryption__Key: ${ENCRYPTION_KEY:?Set ENCRYPTION_KEY in .env}
+      Encryption__IV: ${ENCRYPTION_IV:?Set ENCRYPTION_IV in .env}
+      MonitoringApiKey: ${MONITORING_API_KEY:-change-me}
+      AllowedOrigins__0: ${ALLOWED_ORIGIN:-}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:3001/api/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 8
+      start_period: 40s
+    restart: unless-stopped
+    networks:
+      - masiot_net
+
+  frontend:
+    build:
+      context: ../masiot-factoryagent-front-new-gen-dev
+      dockerfile: Dockerfile.frontend
+      args:
+        VITE_API_URL: /api
+    container_name: masiot_frontend
+    ports:
+      - "${FRONTEND_PORT:-80}:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - masiot_net
+
+volumes:
+  postgres_data:
+
+networks:
+  masiot_net:
+    driver: bridge

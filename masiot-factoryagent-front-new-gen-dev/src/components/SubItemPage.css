@@ -1,0 +1,218 @@
+.subitem-page {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.subitem-page h1 {
+  font-size: 32px;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+.subitem-actions {
+  margin-bottom: 30px;
+}
+
+.create-branch-btn {
+  padding: 12px 24px;
+  background-color: rgba(0, 128, 0, 1);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.create-branch-btn:hover {
+  background-color: rgba(0, 108, 0, 1);
+}
+
+.branches-list h3 {
+  font-size: 20px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.no-branches {
+  text-align: center;
+  color: #999;
+  padding: 40px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  border: 1px solid rgba(217, 217, 217, 1);
+}
+
+.branches-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.branch-card {
+  background-color: white;
+  border: 1px solid rgba(217, 217, 217, 1);
+  border-radius: 10px;
+  padding: 20px;
+  transition: all 0.3s;
+}
+
+.branch-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.branch-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.branch-header h4 {
+  font-size: 18px;
+  color: rgba(98, 124, 255, 1);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.branch-header h4:hover {
+  color: rgba(78, 104, 235, 1);
+}
+
+.delete-branch-btn {
+  width: 30px;
+  height: 30px;
+  background-color: rgba(237, 108, 48, 0.35);
+  color: #d9534f;
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-branch-btn:hover {
+  background-color: rgba(237, 108, 48, 0.6);
+  color: white;
+}
+
+.branch-info {
+  color: #666;
+  font-size: 14px;
+}
+
+.branch-info p {
+  margin: 5px 0;
+}
+
+/* Адаптивность для планшетов */
+@media (max-width: 1024px) {
+  .branches-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 16px;
+  }
+}
+
+/* Адаптивность для мобильных */
+@media (max-width: 768px) {
+  .subitem-page h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .subitem-actions {
+    margin-bottom: 20px;
+  }
+
+  .create-branch-btn {
+    width: 100%;
+    padding: 10px 20px;
+    font-size: 15px;
+  }
+
+  .branches-list h3 {
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+
+  .branches-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .branch-card {
+    padding: 16px;
+  }
+
+  .branch-header h4 {
+    font-size: 16px;
+  }
+
+  .delete-branch-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 16px;
+  }
+
+  .branch-info {
+    font-size: 13px;
+  }
+
+  .no-branches {
+    padding: 30px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .subitem-page h1 {
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
+
+  .subitem-actions {
+    margin-bottom: 16px;
+  }
+
+  .create-branch-btn {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+
+  .branches-list h3 {
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+
+  .branch-card {
+    padding: 14px;
+  }
+
+  .branch-header {
+    margin-bottom: 12px;
+  }
+
+  .branch-header h4 {
+    font-size: 15px;
+  }
+
+  .delete-branch-btn {
+    width: 26px;
+    height: 26px;
+    font-size: 15px;
+  }
+
+  .branch-info {
+    font-size: 12px;
+  }
+
+  .no-branches {
+    padding: 24px;
+    font-size: 13px;
+  }
+}

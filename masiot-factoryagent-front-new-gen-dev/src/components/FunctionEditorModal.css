@@ -1,0 +1,151 @@
+.function-editor-modal {
+  width: 550px;
+  max-width: 90vw;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.function-editor-modal .modal-header {
+  background: white;
+  z-index: 10;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  flex-shrink: 0;
+}
+
+.function-editor-modal form {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.function-editor-modal .modal-body {
+  overflow-y: auto;
+  flex: 1;
+  padding: 20px;
+  min-height: 0;
+}
+
+.function-editor-modal .modal-footer {
+  background: white;
+  z-index: 10;
+  border-top: 1px solid #e0e0e0;
+  padding: 16px 20px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.function-editor-modal .btn-cancel {
+  padding: 10px 24px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: white;
+  border: 1px solid #ddd;
+  color: #666;
+}
+
+.function-editor-modal .btn-cancel:hover {
+  background: #f5f5f5;
+  border-color: #ccc;
+}
+
+.function-editor-modal .btn-save-config {
+  padding: 10px 24px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: rgba(98, 124, 255, 1);
+  border: none;
+  color: white;
+}
+
+.function-editor-modal .btn-save-config:hover {
+  background: rgba(78, 104, 235, 1);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.param-input-group {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.param-input-group .form-input {
+  flex: 1;
+}
+
+.btn-add-param {
+  padding: 8px 16px;
+  background: #2196F3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+
+.btn-add-param:hover {
+  background: #1976D2;
+}
+
+.params-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 40px;
+  padding: 8px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  background: #f8f8f8;
+}
+
+.param-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: #2196F3;
+  color: white;
+  border-radius: 16px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.param-tag button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 0;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+.param-tag button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}

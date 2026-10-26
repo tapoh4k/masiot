@@ -1,0 +1,785 @@
+.settings-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.settings-modal-window {
+  background-color: #ffffff;
+  border-radius: 12px;
+  width: 95%;
+  max-width: 1400px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 32px;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.settings-modal-close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background-color: transparent;
+  font-size: 28px;
+  color: #666;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.settings-modal-close-btn:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+  color: #333;
+}
+
+.settings-modal-title {
+  font-size: 28px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 24px 0;
+}
+
+.settings-tabs {
+  display: flex;
+  gap: 32px;
+  margin-bottom: 0;
+}
+
+.settings-tab-button {
+  padding: 12px 0;
+  background: none;
+  border: none;
+  font-size: 15px;
+  font-weight: 500;
+  color: #666;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.2s;
+}
+
+.settings-tab-button:hover {
+  color: #333;
+}
+
+.settings-tab-button.active {
+  color: rgba(98, 124, 255, 1);
+}
+
+.settings-tab-button.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: rgba(98, 124, 255, 1);
+}
+
+.settings-tabs-divider {
+  height: 1px;
+  background-color: #e0e0e0;
+  width: 100%;
+  margin-bottom: 32px;
+}
+
+.settings-tab-content {
+  min-height: 300px;
+}
+
+.settings-tab-panel {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.settings-card {
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.settings-card-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 20px 0;
+}
+
+.ai-settings-help {
+  margin: 0 0 16px;
+  font-size: 14px;
+  color: #555;
+  line-height: 1.45;
+}
+
+.ai-settings-help a {
+  color: rgba(98, 124, 255, 1);
+}
+
+.ai-key-status {
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.ai-key-ok {
+  background: rgba(16, 185, 129, 0.12);
+  color: #047857;
+}
+
+.ai-key-missing {
+  background: rgba(239, 68, 68, 0.1);
+  color: #b91c1c;
+}
+
+.ai-key-input-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.ai-key-input-row .field-input {
+  flex: 1;
+}
+
+.ai-settings-hint {
+  font-size: 12px;
+  color: #888;
+}
+
+.ai-settings-message {
+  margin: 0;
+  font-size: 14px;
+  color: rgba(98, 124, 255, 1);
+}
+
+.okp-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.field-input {
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+  background-color: #ffffff;
+  color: #333;
+}
+
+.field-input:focus {
+  border-color: rgba(98, 124, 255, 1);
+}
+
+.field-input::placeholder {
+  color: #999;
+}
+
+.field-textarea {
+  padding: 12px;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+  font-family: inherit;
+  resize: vertical;
+  background-color: #ffffff;
+  color: #333;
+}
+
+.field-textarea:focus {
+  border-color: rgba(98, 124, 255, 1);
+}
+
+.field-textarea::placeholder {
+  color: #999;
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.btn-add-okp {
+  padding: 10px 20px;
+  background-color: rgba(98, 124, 255, 1);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-add-okp:hover {
+  background-color: rgba(78, 104, 235, 1);
+}
+
+.btn-cancel-edit {
+  padding: 10px 20px;
+  background-color: #ffffff;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-cancel-edit:hover {
+  border-color: #666;
+  color: #333;
+}
+
+.okp-list-container {
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #ffffff;
+}
+
+.okp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.okp-table thead {
+  position: sticky;
+  top: 0;
+  background-color: #f8f9fa;
+  z-index: 10;
+}
+
+.okp-table th {
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.okp-table th.actions-column {
+  width: 120px;
+  text-align: center;
+}
+
+.okp-table tbody tr {
+  background-color: #ffffff;
+  transition: background-color 0.2s;
+}
+
+.okp-table tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.okp-table tbody td {
+  padding: 12px 16px;
+  color: #666;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.okp-table .actions-cell {
+  text-align: center;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-edit-okp,
+.btn-delete-okp {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.btn-edit-okp:hover {
+  background-color: rgba(98, 124, 255, 0.1);
+}
+
+.btn-delete-okp:hover {
+  background-color: rgba(220, 38, 38, 0.1);
+}
+
+.empty-message {
+  text-align: center;
+  color: #999;
+  padding: 40px 20px;
+  font-size: 14px;
+}
+
+.placeholder-text {
+  text-align: center;
+  color: #999;
+  padding: 60px 20px;
+  font-size: 16px;
+}
+
+/* Стили для управления шаблонами Workflow */
+.workflow-templates-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.workflow-templates-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.btn-create-workflow {
+  padding: 10px 20px;
+  background-color: rgba(98, 124, 255, 1);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-create-workflow:hover {
+  background-color: rgba(78, 104, 235, 1);
+}
+
+.workflow-search-container {
+  margin-bottom: 16px;
+}
+
+.workflow-template-search {
+  width: 100%;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+  background-color: #ffffff;
+  color: #333;
+}
+
+.workflow-template-search:focus {
+  border-color: rgba(98, 124, 255, 1);
+  box-shadow: 0 0 0 3px rgba(98, 124, 255, 0.1);
+}
+
+.workflow-template-search::placeholder {
+  color: #999;
+}
+
+.workflow-templates-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+  padding: 24px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+}
+
+.workflow-template-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  transition: all 0.2s;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e0e0e0;
+}
+
+.workflow-template-card:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.workflow-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.workflow-card-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+  flex: 1;
+}
+
+.workflow-card-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.btn-workflow-action {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.btn-workflow-action:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.btn-workflow-delete:hover {
+  background-color: rgba(220, 38, 38, 0.1);
+}
+
+.workflow-card-description {
+  font-size: 14px;
+  color: #666;
+  margin: 0 0 16px 0;
+  line-height: 1.5;
+}
+
+.workflow-card-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-top: 12px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.workflow-card-date {
+  font-size: 12px;
+  color: #999;
+}
+
+.empty-workflows-message {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.empty-workflows-message p {
+  font-size: 16px;
+  color: #999;
+  margin: 0 0 20px 0;
+}
+
+.btn-create-first-workflow {
+  padding: 12px 24px;
+  background-color: rgba(98, 124, 255, 1);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-create-first-workflow:hover {
+  background-color: rgba(78, 104, 235, 1);
+}
+
+.workflow-editor-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.workflow-editor-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.btn-back-to-list {
+  padding: 8px 16px;
+  background-color: #ffffff;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-back-to-list:hover {
+  border-color: rgba(98, 124, 255, 1);
+  color: rgba(98, 124, 255, 1);
+}
+
+.workflow-editor-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+/* Адаптивность для планшетов */
+@media (max-width: 1024px) {
+  .settings-modal-window {
+    width: 95%;
+    padding: 28px;
+  }
+
+  .settings-tabs {
+    gap: 24px;
+    overflow-x: auto;
+  }
+
+  .settings-tab-button {
+    white-space: nowrap;
+  }
+
+  .workflow-templates-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    padding: 20px;
+  }
+}
+
+/* Адаптивность для мобильных */
+@media (max-width: 768px) {
+  .settings-modal-window {
+    width: 98%;
+    max-height: 95vh;
+    padding: 20px;
+  }
+
+  .settings-modal-title {
+    font-size: 22px;
+    margin-bottom: 20px;
+    padding-right: 32px;
+  }
+
+  .settings-modal-close-btn {
+    top: 12px;
+    right: 12px;
+    width: 28px;
+    height: 28px;
+    font-size: 24px;
+  }
+
+  .settings-tabs {
+    gap: 16px;
+  }
+
+  .settings-tab-button {
+    font-size: 14px;
+    padding: 10px 0;
+  }
+
+  .settings-card {
+    padding: 20px;
+  }
+
+  .settings-card-title {
+    font-size: 16px;
+    margin-bottom: 16px;
+  }
+
+  .field-input,
+  .field-textarea {
+    font-size: 13px;
+  }
+
+  .field-input {
+    height: 38px;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .btn-add-okp,
+  .btn-cancel-edit {
+    width: 100%;
+  }
+
+  .okp-list-container {
+    max-height: 320px;
+  }
+
+  .okp-table {
+    font-size: 12px;
+  }
+
+  .okp-table th,
+  .okp-table td {
+    padding: 8px 12px;
+  }
+
+  .okp-table .actions-cell {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .empty-message,
+  .placeholder-text {
+    padding: 30px 16px;
+    font-size: 13px;
+  }
+
+  .workflow-templates-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .workflow-templates-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .btn-create-workflow {
+    width: 100%;
+  }
+
+  .workflow-template-card {
+    padding: 16px;
+  }
+
+  .workflow-card-title {
+    font-size: 16px;
+  }
+
+  .workflow-card-description {
+    font-size: 13px;
+  }
+
+  .workflow-editor-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .btn-back-to-list {
+    width: 100%;
+  }
+
+  .workflow-editor-title {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .settings-modal-window {
+    padding: 16px;
+    border-radius: 8px;
+  }
+
+  .settings-modal-title {
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+
+  .settings-tabs {
+    gap: 12px;
+  }
+
+  .settings-tab-button {
+    font-size: 13px;
+    padding: 8px 0;
+  }
+
+  .settings-card {
+    padding: 16px;
+  }
+
+  .settings-card-title {
+    font-size: 15px;
+  }
+
+  .field-label {
+    font-size: 13px;
+  }
+
+  .field-input {
+    height: 36px;
+    font-size: 12px;
+  }
+
+  .field-textarea {
+    font-size: 12px;
+  }
+
+  .btn-add-okp,
+  .btn-cancel-edit {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+
+  .okp-list-container {
+    max-height: 280px;
+  }
+
+  .okp-table {
+    font-size: 11px;
+  }
+
+  .okp-table th,
+  .okp-table td {
+    padding: 6px 8px;
+  }
+
+  .btn-edit-okp,
+  .btn-delete-okp {
+    font-size: 16px;
+    padding: 3px 6px;
+  }
+}

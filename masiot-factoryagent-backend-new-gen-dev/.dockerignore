@@ -1,0 +1,15 @@
+bin/
+obj/
+logs/
+.git/
+.gitignore
+*.md
+.env
+.env.*
+.vs/
+.idea/
+*.user
+*.log
+docker-compose.yml
+appsettings.Development.json
+postman_collection.json

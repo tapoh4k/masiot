@@ -1,0 +1,178 @@
+.hosts-page {
+  padding: 24px;
+  background-color: #f8f9fc;
+  min-height: 100%;
+}
+
+.hosts-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.hosts-header h1 {
+  margin: 0;
+  font-size: 28px;
+  color: #1e293b;
+}
+
+.hosts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.host-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.host-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.host-card-top h2 {
+  margin: 0;
+  font-size: 18px;
+  color: #0f172a;
+}
+
+.host-status {
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #e2e8f0;
+  color: #475569;
+  text-transform: lowercase;
+}
+
+.host-status-online {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.host-status-offline {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.host-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.host-type {
+  font-weight: 600;
+  color: #627cff;
+}
+
+.host-routing,
+.host-deploy {
+  margin: 0;
+  font-size: 12px;
+  color: #94a3b8;
+  word-break: break-all;
+}
+
+.host-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.host-actions button {
+  flex: 1;
+  padding: 8px 10px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #f8fafc;
+  cursor: pointer;
+}
+
+.host-actions button.danger {
+  color: #b91c1c;
+}
+
+.hosts-empty {
+  color: #64748b;
+}
+
+.hosts-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.hosts-modal {
+  width: min(420px, 92vw);
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.hosts-modal h3 {
+  margin: 0 0 16px;
+}
+
+.hosts-modal form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.hosts-modal label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  color: #475569;
+}
+
+.hosts-modal input,
+.hosts-modal select {
+  padding: 10px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.hosts-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.hosts-modal-actions button {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  cursor: pointer;
+}
+
+.btn-create {
+  padding: 12px 24px;
+  background: rgba(98, 124, 255, 1);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+}

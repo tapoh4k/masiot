@@ -1,0 +1,39 @@
+# Local data / tooling
+.local/
+*.log
+logs/
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.user
+*.suo
+
+# Deploy / env secrets
+deploy/.env
+.env
+.env.*
+!.env.example
+
+# Node
+**/node_modules/
+**/dist/
+**/build/
+**/.vite/
+
+# .NET
+**/bin/
+**/obj/
+**/*.user
+**/appsettings.Local.json
+
+# Keep example configs, ignore local secrets if present
+**/appsettings.Development.Local.json
+
+# Misc
+*.tmp
+*.swp
+coverage/
+.nyc_output/

@@ -1,0 +1,45 @@
+.app {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background-color: #ffffff;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  overflow: hidden;
+}
+
+.content-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+/* Адаптивность для планшетов */
+@media (max-width: 1024px) {
+  .content-body {
+    padding: 16px;
+  }
+}
+
+/* Адаптивность для мобильных */
+@media (max-width: 768px) {
+  .app {
+    flex-direction: column;
+  }
+
+  .content-body {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .content-body {
+    padding: 10px;
+  }
+}
