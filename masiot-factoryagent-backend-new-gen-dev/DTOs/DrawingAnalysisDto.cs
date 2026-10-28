@@ -135,3 +135,75 @@ public class AnalyzeDrawingResponseDto
     [JsonPropertyName("message")]
     public string? Message { get; set; }
 }
+
+public class TechProcessDrawingTimesDto
+{
+    [JsonPropertyName("matches")]
+    public bool? Matches { get; set; }
+
+    [JsonPropertyName("drawing_what")]
+    public string? DrawingWhat { get; set; }
+
+    [JsonPropertyName("mismatch_reason")]
+    public string? MismatchReason { get; set; }
+
+    [JsonPropertyName("confidence")]
+    public string? Confidence { get; set; }
+
+    [JsonPropertyName("summary")]
+    public string? Summary { get; set; }
+
+    [JsonPropertyName("operations")]
+    public List<TechProcessOperationTimeFillDto> Operations { get; set; } = new();
+}
+
+public class TechProcessOperationTimeFillDto
+{
+    [JsonPropertyName("id")]
+    public int? Id { get; set; }
+
+    [JsonPropertyName("op_no")]
+    public int? OpNo { get; set; }
+
+    [JsonPropertyName("setup_time_min")]
+    public double? SetupTimeMin { get; set; }
+
+    [JsonPropertyName("process_time_min")]
+    public double? ProcessTimeMin { get; set; }
+
+    [JsonPropertyName("service_time_min")]
+    public double? ServiceTimeMin { get; set; }
+}
+
+public class AnalyzeTechProcessDrawingResponseDto
+{
+    [JsonPropertyName("message")]
+    public string? Message { get; set; }
+
+    [JsonPropertyName("summary")]
+    public string? Summary { get; set; }
+
+    [JsonPropertyName("confidence")]
+    public string? Confidence { get; set; }
+
+    [JsonPropertyName("updated_count")]
+    public int UpdatedCount { get; set; }
+
+    [JsonPropertyName("matches")]
+    public bool Matches { get; set; } = true;
+
+    [JsonPropertyName("drawing_what")]
+    public string? DrawingWhat { get; set; }
+
+    [JsonPropertyName("mismatch_reason")]
+    public string? MismatchReason { get; set; }
+
+    [JsonPropertyName("file_name")]
+    public string? FileName { get; set; }
+
+    [JsonPropertyName("model_name")]
+    public string? ModelName { get; set; }
+
+    [JsonPropertyName("tech_process")]
+    public object? TechProcess { get; set; }
+}

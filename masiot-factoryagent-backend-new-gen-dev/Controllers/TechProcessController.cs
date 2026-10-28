@@ -360,6 +360,7 @@ public class TechProcessController : ControllerBase
             .OrderBy(o => o.Position)
             .Select(o => new
             {
+                id = o.Id,
                 op_no = o.OpNo,
                 op_type = o.OpType,
                 blank_code = o.BlankCode,

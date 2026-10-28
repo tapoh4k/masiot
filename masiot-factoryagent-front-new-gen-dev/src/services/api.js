@@ -249,6 +249,21 @@ export const drawingsAPI = {
     });
     if (!response.ok) throw new Error('Ошибка загрузки результата анализа');
     return response.json();
+  },
+
+  analyzeTechProcess: async (agentId, file) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    const response = await fetch(`${API_URL}/drawings/analyze-tech-process/${agentId}`, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: formData
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      throw new Error(data.message || data.detail || 'Ошибка анализа чертежа техпроцесса');
+    }
+    return data;
   }
 };
 

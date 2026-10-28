@@ -73,4 +73,41 @@ public class DrawingsController : ControllerBase
         if (item == null) return NotFound(new { message = "Не найдено" });
         return Ok(item);
     }
+
+    /// <summary>
+    /// Upload a drawing for a tech-process agent and fill operation times in the TP table.
+    /// </summary>
+    [HttpPost("analyze-tech-process/{agentId:int}")]
+    [RequestSizeLimit(25_000_000)]
+    [RequestFormLimits(MultipartBodyLengthLimit = 25_000_000)]
+    public async Task<ActionResult<AnalyzeTechProcessDrawingResponseDto>> AnalyzeTechProcess(
+        int agentId,
+        [FromForm] IFormFile file,
+        CancellationToken cancellationToken)
+    {
+        if (file == null || file.Length == 0)
+            return BadRequest(new { message = "Файл не передан" });
+
+        try
+        {
+            await using var stream = file.OpenReadStream();
+            var result = await _service.AnalyzeForTechProcessAsync(
+                agentId,
+                stream,
+                file.FileName,
+                file.ContentType,
+                cancellationToken);
+            return Ok(result);
+        }
+        catch (InvalidOperationException ex)
+        {
+            _logger.LogWarning(ex, "TP drawing analyze rejected for agent {AgentId}", agentId);
+            return BadRequest(new { message = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "TP drawing analyze failed for agent {AgentId}", agentId);
+            return StatusCode(500, new { message = "Ошибка анализа чертежа", detail = ex.Message });
+        }
+    }
 }

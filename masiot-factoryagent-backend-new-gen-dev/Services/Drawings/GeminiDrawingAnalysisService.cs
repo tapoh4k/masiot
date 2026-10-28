@@ -104,8 +104,8 @@ public class GeminiDrawingAnalysisService : IDrawingAnalysisService
         try
         {
             rawJson = provider == "gemini"
-                ? await CallGeminiAsync(apiKey, model, mime, base64, cancellationToken)
-                : await CallOpenAiCompatibleAsync(apiKey, baseUrl, model, mime, base64, cancellationToken);
+                ? await CallGeminiAsync(apiKey, model, mime, base64, DrawingLaborPrompt.SystemInstruction, DrawingLaborPrompt.UserAsk, cancellationToken)
+                : await CallOpenAiCompatibleAsync(apiKey, baseUrl, model, mime, base64, DrawingLaborPrompt.SystemInstruction, DrawingLaborPrompt.UserAsk, cancellationToken);
             estimate = ParseEstimate(rawJson);
             if (estimate == null)
                 throw new InvalidOperationException("Модель вернула ответ без распознаваемого JSON.");
@@ -162,6 +162,207 @@ public class GeminiDrawingAnalysisService : IDrawingAnalysisService
         return row == null ? null : Map(row, TryDeserialize(row.ResultJson));
     }
 
+    public async Task<AnalyzeTechProcessDrawingResponseDto> AnalyzeForTechProcessAsync(
+        int agentId,
+        Stream fileStream,
+        string fileName,
+        string? contentType,
+        CancellationToken cancellationToken = default)
+    {
+        var agent = await _db.Agents
+            .Include(a => a.TechProcess)
+            .FirstOrDefaultAsync(a => a.Id == agentId, cancellationToken);
+
+        if (agent == null)
+            throw new InvalidOperationException($"Агент {agentId} не найден");
+        var isTp = string.Equals(agent.Type, "tech_process", StringComparison.OrdinalIgnoreCase)
+            || string.Equals(agent.AgentTypeValue, "tech_process", StringComparison.OrdinalIgnoreCase);
+        if (!isTp)
+            throw new InvalidOperationException("Анализ чертежа доступен только для агентов техпроцесса");
+        if (agent.TechProcess == null)
+            throw new InvalidOperationException("К агенту не привязан техпроцесс");
+
+        var ops = await _db.TechProcessOperations
+            .Where(o => o.TechProcessId == agent.TechProcess.Id)
+            .OrderBy(o => o.Position)
+            .ToListAsync(cancellationToken);
+
+        if (ops.Count == 0)
+            throw new InvalidOperationException("У техпроцесса нет операций");
+
+        var ext = Path.GetExtension(fileName);
+        if (string.IsNullOrWhiteSpace(ext) || !AllowedExtensions.Contains(ext))
+        {
+            throw new InvalidOperationException(
+                "Поддерживаются: PDF, PNG, JPG, WEBP, TIFF, BMP. DWG/DXF сначала экспортируйте в PDF.");
+        }
+
+        var provider = await _appSettings.GetAiProviderAsync(cancellationToken);
+        var apiKey = await _appSettings.GetAiApiKeyAsync(cancellationToken);
+        if (string.IsNullOrWhiteSpace(apiKey))
+        {
+            throw new InvalidOperationException(
+                "Не задан API key. Откройте Настройки → Нейросеть и сохраните ключ.");
+        }
+
+        var model = await _appSettings.GetAiModelAsync(cancellationToken);
+        var baseUrl = await _appSettings.GetAiBaseUrlAsync(cancellationToken);
+        var maxBytes = _config.GetValue("Ai:MaxFileBytes",
+            _config.GetValue("Gemini:MaxFileBytes", 20_000_000));
+
+        using var ms = new MemoryStream();
+        await fileStream.CopyToAsync(ms, cancellationToken);
+        if (ms.Length == 0)
+            throw new InvalidOperationException("Пустой файл.");
+        if (ms.Length > maxBytes)
+            throw new InvalidOperationException($"Файл слишком большой (макс. {maxBytes / 1_000_000} МБ).");
+
+        var mime = ResolveMime(contentType, ext);
+        var base64 = Convert.ToBase64String(ms.ToArray());
+
+        var opsPayload = ops.Select(o => new
+        {
+            id = o.Id,
+            op_no = o.OpNo,
+            op_type = o.OpType,
+            equipment_code = o.EquipmentCode,
+            tool_codes = o.ToolCodes,
+            profession_code = o.ProfessionCode,
+            description = o.Description
+        });
+        var opsJson = JsonSerializer.Serialize(opsPayload, JsonOpts);
+        var userAsk = DrawingLaborPrompt.BuildTechProcessUserAsk(
+            agent.TechProcess.Code,
+            agent.TechProcess.Name,
+            agent.Name,
+            opsJson);
+
+        var rawJson = provider == "gemini"
+            ? await CallGeminiAsync(apiKey, model, mime, base64, DrawingLaborPrompt.TechProcessSystemInstruction, userAsk, cancellationToken)
+            : await CallOpenAiCompatibleAsync(apiKey, baseUrl, model, mime, base64, DrawingLaborPrompt.TechProcessSystemInstruction, userAsk, cancellationToken);
+
+        var parsedJson = ExtractJsonObject(rawJson);
+        var times = parsedJson == null
+            ? null
+            : JsonSerializer.Deserialize<TechProcessDrawingTimesDto>(parsedJson, JsonOpts);
+
+        if (times == null)
+            throw new InvalidOperationException("Модель вернула ответ без распознаваемого JSON.");
+
+        var matches = times.Matches != false;
+
+        if (!matches)
+        {
+            var reason = times.MismatchReason
+                ?? times.Summary
+                ?? "Чертёж не соответствует этому техпроцессу.";
+            if (!string.IsNullOrWhiteSpace(times.DrawingWhat))
+                reason = $"На чертеже: {times.DrawingWhat}. {reason}";
+
+            _db.DrawingAnalyses.Add(new DrawingAnalysis
+            {
+                FileName = Path.GetFileName(fileName),
+                ContentType = mime,
+                Status = "error",
+                PartName = agent.TechProcess.Name,
+                DrawingNumber = agent.TechProcess.Code,
+                Confidence = "low",
+                ResultJson = parsedJson ?? "{}",
+                ModelName = model,
+                ErrorMessage = reason,
+                CreatedAt = DateTime.UtcNow
+            });
+            await _db.SaveChangesAsync(cancellationToken);
+
+            return new AnalyzeTechProcessDrawingResponseDto
+            {
+                Message = "Чертёж не соответствует техпроцессу. Время не изменено.",
+                Summary = reason,
+                Confidence = "low",
+                UpdatedCount = 0,
+                Matches = false,
+                DrawingWhat = times.DrawingWhat,
+                MismatchReason = reason,
+                FileName = Path.GetFileName(fileName),
+                ModelName = model,
+                TechProcess = BuildTechProcessPayload(agent.TechProcess, ops)
+            };
+        }
+
+        if (times.Operations == null || times.Operations.Count == 0)
+            throw new InvalidOperationException("Модель не вернула времена по операциям.");
+
+        var updated = 0;
+        for (var i = 0; i < ops.Count; i++)
+        {
+            var op = ops[i];
+            var fill = times.Operations.FirstOrDefault(t => t.Id == op.Id)
+                ?? times.Operations.FirstOrDefault(t => t.OpNo != null && t.OpNo == op.OpNo)
+                ?? (i < times.Operations.Count ? times.Operations[i] : null);
+            if (fill == null) continue;
+
+            if (fill.SetupTimeMin != null) op.SetupTimeMin = fill.SetupTimeMin;
+            if (fill.ProcessTimeMin != null) op.ProcessTimeMin = fill.ProcessTimeMin;
+            if (fill.ServiceTimeMin != null) op.ServiceTimeMin = fill.ServiceTimeMin;
+            op.UpdatedAt = DateTime.UtcNow;
+            updated++;
+        }
+
+        await _db.SaveChangesAsync(cancellationToken);
+
+        _db.DrawingAnalyses.Add(new DrawingAnalysis
+        {
+            FileName = Path.GetFileName(fileName),
+            ContentType = mime,
+            Status = "completed",
+            PartName = agent.TechProcess.Name,
+            DrawingNumber = agent.TechProcess.Code,
+            TotalLaborHours = (decimal?)(ops.Sum(o =>
+                (o.SetupTimeMin ?? 0) + (o.ProcessTimeMin ?? 0) + (o.ServiceTimeMin ?? 0)) / 60.0),
+            Confidence = times.Confidence,
+            ResultJson = parsedJson ?? "{}",
+            ModelName = model,
+            CreatedAt = DateTime.UtcNow
+        });
+        await _db.SaveChangesAsync(cancellationToken);
+
+        return new AnalyzeTechProcessDrawingResponseDto
+        {
+            Message = $"Время проставлено для {updated} операций",
+            Summary = times.Summary,
+            Confidence = times.Confidence,
+            UpdatedCount = updated,
+            Matches = true,
+            DrawingWhat = times.DrawingWhat,
+            FileName = Path.GetFileName(fileName),
+            ModelName = model,
+            TechProcess = BuildTechProcessPayload(agent.TechProcess, ops)
+        };
+    }
+
+    private static object BuildTechProcessPayload(Backend.Models.TechProcess tp, List<TechProcessOperation> ops) => new
+    {
+        tech_process_id = tp.Id,
+        code = tp.Code,
+        name = tp.Name,
+        source_sheet_name = tp.SourceSheetName,
+        operations = ops.Select(o => new
+        {
+            id = o.Id,
+            op_no = o.OpNo,
+            op_type = o.OpType,
+            blank_code = o.BlankCode,
+            setup_time_min = o.SetupTimeMin,
+            process_time_min = o.ProcessTimeMin,
+            service_time_min = o.ServiceTimeMin,
+            equipment_code = o.EquipmentCode,
+            tool_codes = o.ToolCodes,
+            profession_code = o.ProfessionCode,
+            description = o.Description,
+            extra = o.Extra
+        })
+    };
+
     private static string ResolveMime(string? contentType, string ext)
     {
         if (!string.IsNullOrWhiteSpace(contentType) &&
@@ -180,6 +381,8 @@ public class GeminiDrawingAnalysisService : IDrawingAnalysisService
         string model,
         string mime,
         string base64,
+        string systemInstruction,
+        string userAsk,
         CancellationToken ct)
     {
         var client = _httpClientFactory.CreateClient("OrcaRouter");
@@ -193,13 +396,13 @@ public class GeminiDrawingAnalysisService : IDrawingAnalysisService
             response_format = new { type = "json_object" },
             messages = new object[]
             {
-                new { role = "system", content = DrawingLaborPrompt.SystemInstruction },
+                new { role = "system", content = systemInstruction },
                 new
                 {
                     role = "user",
                     content = new object[]
                     {
-                        new { type = "text", text = DrawingLaborPrompt.UserAsk },
+                        new { type = "text", text = userAsk },
                         new
                         {
                             type = "image_url",
@@ -240,6 +443,8 @@ public class GeminiDrawingAnalysisService : IDrawingAnalysisService
         string model,
         string mime,
         string base64,
+        string systemInstruction,
+        string userAsk,
         CancellationToken ct)
     {
         var client = _httpClientFactory.CreateClient("Gemini");
@@ -249,7 +454,7 @@ public class GeminiDrawingAnalysisService : IDrawingAnalysisService
         {
             systemInstruction = new
             {
-                parts = new[] { new { text = DrawingLaborPrompt.SystemInstruction } }
+                parts = new[] { new { text = systemInstruction } }
             },
             contents = new[]
             {
@@ -258,7 +463,7 @@ public class GeminiDrawingAnalysisService : IDrawingAnalysisService
                     role = "user",
                     parts = new object[]
                     {
-                        new { text = DrawingLaborPrompt.UserAsk },
+                        new { text = userAsk },
                         new
                         {
                             inline_data = new

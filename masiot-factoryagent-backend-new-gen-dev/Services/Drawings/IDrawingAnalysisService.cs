@@ -15,4 +15,11 @@ public interface IDrawingAnalysisService
         CancellationToken cancellationToken = default);
 
     Task<DrawingAnalysisDto?> GetByIdAsync(int id, CancellationToken cancellationToken = default);
+
+    Task<AnalyzeTechProcessDrawingResponseDto> AnalyzeForTechProcessAsync(
+        int agentId,
+        Stream fileStream,
+        string fileName,
+        string? contentType,
+        CancellationToken cancellationToken = default);
 }

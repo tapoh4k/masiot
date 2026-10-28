@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import AddParametersModal from './AddParametersModal.jsx';
-import { API_URL, workflowTemplateAPI, messagesAPI, workflowAPI } from '../services/api.js';
+import { API_URL, workflowTemplateAPI, messagesAPI, workflowAPI, drawingsAPI } from '../services/api.js';
 import './AgentPage.css';
 
 function AgentPage({ treeNodes, onUpdateAgent, onDeleteAgent, onAddAgent, onReloadTree }) {
@@ -83,9 +83,14 @@ function AgentPage({ treeNodes, onUpdateAgent, onDeleteAgent, onAddAgent, onRelo
   const [isParametersModalOpen, setIsParametersModalOpen] = useState(false);
 
   const [techProcess, setTechProcess] = useState(null);
+  const [tpDrawingFile, setTpDrawingFile] = useState(null);
+  const [tpDrawingAnalyzing, setTpDrawingAnalyzing] = useState(false);
+  const [tpDrawingError, setTpDrawingError] = useState('');
+  const [tpDrawingSummary, setTpDrawingSummary] = useState('');
 
   useEffect(() => {
-    if (agentData?.type !== 'tech_process' || !agentData?.id) {
+    const isTp = agentData?.type === 'tech_process' || agentData?.agent_type === 'tech_process';
+    if (!isTp || !agentData?.id) {
       setTechProcess(null);
       return;
     }
@@ -99,6 +104,64 @@ function AgentPage({ treeNodes, onUpdateAgent, onDeleteAgent, onAddAgent, onRelo
       });
     return () => { cancelled = true; };
   }, [agentData?.id, agentData?.type]);
+
+  const isDrawingFile = (file) =>
+    file && /\.(pdf|png|jpe?g|webp|tiff?|bmp)$/i.test(file.name || '');
+
+  const handleTpDrawingChange = (e) => {
+    const file = e.target.files?.[0];
+    setTpDrawingError('');
+    setTpDrawingSummary('');
+    if (!file) return;
+    if (!isDrawingFile(file)) {
+      setTpDrawingError('Поддерживаются PDF, PNG, JPG, WEBP, TIFF, BMP');
+      return;
+    }
+    setTpDrawingFile(file);
+  };
+
+  const handleAnalyzeTpDrawing = async () => {
+    if (!tpDrawingFile) {
+      setTpDrawingError('Выберите чертёж');
+      return;
+    }
+    if (!agentData?.id) {
+      setTpDrawingError('Агент не загружен');
+      return;
+    }
+    setTpDrawingAnalyzing(true);
+    setTpDrawingError('');
+    setTpDrawingSummary('');
+    try {
+      const data = await drawingsAPI.analyzeTechProcess(agentData.id, tpDrawingFile);
+      if (data.tech_process) setTechProcess(data.tech_process);
+      if (data.matches === false) {
+        const what = data.drawing_what ? `На чертеже: ${data.drawing_what}. ` : '';
+        setTpDrawingError(
+          `${what}${data.mismatch_reason || data.summary || 'Чертёж не соответствует этому техпроцессу.'} Время не изменено.`
+        );
+        return;
+      }
+      setTpDrawingSummary(data.summary || data.message || 'Время операций обновлено');
+    } catch (error) {
+      setTpDrawingError(error.message || 'Ошибка анализа');
+    } finally {
+      setTpDrawingAnalyzing(false);
+    }
+  };
+
+  const formatOpTime = (v) => {
+    if (v === null || v === undefined || v === '') return '—';
+    const n = Number(v);
+    if (Number.isNaN(n)) return String(v);
+    return Number.isInteger(n) ? String(n) : n.toFixed(1);
+  };
+
+  const formatToolCodes = (codes) => {
+    if (!codes) return '—';
+    if (Array.isArray(codes)) return codes.filter(Boolean).join(', ') || '—';
+    return String(codes).split(';').filter(Boolean).join(', ') || '—';
+  };
 
   // Save active tab to localStorage when it changes
   useEffect(() => {
@@ -799,11 +862,44 @@ function AgentPage({ treeNodes, onUpdateAgent, onDeleteAgent, onAddAgent, onRelo
 
             {techProcess && (
               <div className="agent-params-card" style={{ marginTop: 24 }}>
-                <div className="params-card-header">
+                <div className="params-card-header tp-ops-header">
                   <h2 className="params-card-title">
                     Операции техпроцесса {techProcess.code} ({techProcess.operations.length})
                   </h2>
+                  <div className="tp-drawing-actions">
+                    <input
+                      id="tp-drawing-input"
+                      type="file"
+                      accept=".pdf,.png,.jpg,.jpeg,.webp,.tif,.tiff,.bmp,application/pdf,image/*"
+                      onChange={handleTpDrawingChange}
+                      style={{ display: 'none' }}
+                      disabled={tpDrawingAnalyzing}
+                    />
+                    <button
+                      type="button"
+                      className="btn-add-parameters btn-outline-tp"
+                      onClick={() => document.getElementById('tp-drawing-input')?.click()}
+                      disabled={tpDrawingAnalyzing}
+                    >
+                      {tpDrawingFile ? tpDrawingFile.name : 'Загрузить чертёж'}
+                    </button>
+                    <button
+                      type="button"
+                      className="btn-add-parameters"
+                      onClick={handleAnalyzeTpDrawing}
+                      disabled={tpDrawingAnalyzing || !tpDrawingFile}
+                    >
+                      {tpDrawingAnalyzing ? 'Анализ…' : 'Оценить время'}
+                    </button>
+                  </div>
                 </div>
+                <p className="tp-drawing-hint">
+                  Нейросеть проставит наладку / операцию / обслуживание по чертежу и маршруту операций
+                </p>
+                {tpDrawingError && <p className="tp-drawing-error">{tpDrawingError}</p>}
+                {tpDrawingSummary && !tpDrawingError && (
+                  <p className="tp-drawing-summary">{tpDrawingSummary}</p>
+                )}
                 <div className="agent-params-table-container">
                   <table className="agent-params-table">
                     <thead>
@@ -819,15 +915,15 @@ function AgentPage({ treeNodes, onUpdateAgent, onDeleteAgent, onAddAgent, onRelo
                     </thead>
                     <tbody>
                       {techProcess.operations.map((op, idx) => (
-                        <tr key={idx} className="param-row">
+                        <tr key={op.id || idx} className="param-row">
                           <td>{op.op_no != null ? String(op.op_no).padStart(3, '0') : '—'}</td>
                           <td>{op.op_type || '—'}</td>
                           <td>{op.equipment_code || '—'}</td>
-                          <td>{op.tool_codes ? op.tool_codes.split(';').join(', ') : '—'}</td>
+                          <td>{formatToolCodes(op.tool_codes)}</td>
                           <td>{op.profession_code || '—'}</td>
                           <td>
                             {[op.setup_time_min, op.process_time_min, op.service_time_min]
-                              .map(v => (v ?? '—'))
+                              .map(formatOpTime)
                               .join(' / ')}
                           </td>
                           <td style={{ whiteSpace: 'pre-wrap' }}>{op.description || '—'}</td>
